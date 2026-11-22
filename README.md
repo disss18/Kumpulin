@@ -1,10 +1,6 @@
 # Kumpulin
 
-Portal terpusat untuk peserta praktikum: lihat tenggat, simpan info dari grup asprak, cek berkas, lalu diarahkan ke tempat pengumpulan (eLing atau Google Classroom).
-
-Ini prototipe UI fungsional. Belum ada backend atau database. Data contoh ada di `assets/js/core/data.js`, dan perubahan (status, info baru, centang daftar cek, pengingat) disimpan di `localStorage` browser.
-
-Seluruh project hanya berisi HTML, CSS, dan JavaScript. Tidak perlu Node.js, npm, atau install apa pun.
+satu pintu informasi praktikum bagi mahasiswa yang menggabungkan tugas laporan praktikum (laprak) dari eLing dan Google Classroom dengan pengumuman asisten praktikum di grup WhatsApp (aturan laprak serta jadwal UTP/UAP), berbasis web responsif.
 
 ## Cara menjalankan
 
