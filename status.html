@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Pantau status pengumpulan laprak dan atur pengingat.">
+  <title>Status Laprak · Kumpulin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Langsung ke konten</a>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Menu Kumpulin"></aside>
+
+    <main class="content" id="main" tabindex="-1">
+      <header class="page-header">
+        <div class="page-header__text">
+          <h1>Status laprak</h1>
+          <p class="page-subtitle">Pantau laprak yang belum, sudah, dan perlu dikumpulkan ulang.</p>
+        </div>
+      </header>
+
+      <div class="page-grid">
+        <section class="stack" aria-labelledby="table-heading">
+          <div class="section-head">
+            <h2 class="visually-hidden" id="table-heading">Daftar laprak</h2>
+            <div class="segmented" role="group" aria-label="Filter status" id="status-filter"></div>
+          </div>
+          <div class="table-card">
+            <table class="status-table">
+              <caption class="visually-hidden">Status pengumpulan semua laprak</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Laprak</th>
+                  <th scope="col">Tenggat</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="status-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside class="page-aside">
+          <section class="card" id="pengingat" aria-labelledby="reminder-heading">
+            <div class="card__title-row">
+              <span class="icon-box icon-box--neutral"><span data-icon="bell"></span></span>
+              <h2 class="card__title" id="reminder-heading">Pengingat</h2>
+            </div>
+            <div class="setting-list" id="reminder-settings"></div>
+          </section>
+
+          <section class="card" aria-labelledby="next-heading">
+            <h2 class="card__title" id="next-heading">Pengingat berikutnya</h2>
+            <ul class="reminder-list" id="next-reminders"></ul>
+          </section>
+
+          <button class="link-button link-button--muted" type="button" id="reset-demo">
+            <span data-icon="refresh" data-size="16"></span>
+            Atur ulang data demo
+          </button>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/core/data.js"></script>
+  <script src="assets/js/core/store.js"></script>
+  <script src="assets/js/core/format.js"></script>
+  <script src="assets/js/core/icons.js"></script>
+  <script src="assets/js/core/ui.js"></script>
+  <script src="assets/js/pages/status.js"></script>
+</body>
+</html>

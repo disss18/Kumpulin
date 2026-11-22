@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Simpan info tenggat, aturan, dan jadwal ujian dari pesan grup praktikum.">
+  <title>Simpan Info · Kumpulin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Langsung ke konten</a>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Menu Kumpulin"></aside>
+
+    <main class="content" id="main" tabindex="-1">
+      <header class="page-header">
+        <div class="page-header__text">
+          <h1>Simpan info dari grup</h1>
+          <p class="page-subtitle">Tempel pesan asprak, Kumpulin akan mengisi formulir di bawah. Kamu tinggal cek lalu simpan.</p>
+        </div>
+      </header>
+
+      <div class="page-grid">
+        <form class="page-main" id="info-form" novalidate>
+          <section class="card" aria-labelledby="message-heading">
+            <div class="card__title-row">
+              <span class="icon-box"><span data-icon="message"></span></span>
+              <h2 class="card__title" id="message-heading">Pesan dari grup</h2>
+            </div>
+
+            <div class="field" id="field-message">
+              <label class="field__label" for="message">Pesan asprak</label>
+              <div class="field__control field__control--textarea">
+                <textarea id="message" name="message" rows="6" placeholder="Tempel pesan dari grup WhatsApp di sini" aria-describedby="message-help message-error"></textarea>
+              </div>
+              <p class="field__helper" id="message-help">Pesan hanya dibaca di perangkat ini dan tidak dikirim ke mana pun.</p>
+              <p class="field__error" id="message-error"></p>
+            </div>
+
+            <div class="form-actions form-actions--start">
+              <button class="btn btn--primary" type="button" id="parse-button">
+                <span data-icon="sparkles"></span>
+                Baca pesan
+              </button>
+              <button class="btn btn--secondary" type="button" id="sample-button">Isi contoh pesan</button>
+            </div>
+
+            <div id="parse-result" aria-live="polite"></div>
+          </section>
+
+          <section class="card" aria-labelledby="detail-heading">
+            <div class="card__title-row">
+              <span class="icon-box icon-box--neutral"><span data-icon="clipboard"></span></span>
+              <h2 class="card__title" id="detail-heading">Detail info</h2>
+            </div>
+
+            <fieldset class="field">
+              <legend class="field__label">Jenis info</legend>
+              <div class="segmented segmented--full">
+                <label class="segmented__option">
+                  <input class="visually-hidden" type="radio" name="type" value="tenggat" checked>
+                  <span data-icon="check" data-size="16"></span>
+                  Tenggat
+                </label>
+                <label class="segmented__option">
+                  <input class="visually-hidden" type="radio" name="type" value="aturan">
+                  <span data-icon="check" data-size="16"></span>
+                  Aturan
+                </label>
+                <label class="segmented__option">
+                  <input class="visually-hidden" type="radio" name="type" value="ujian">
+                  <span data-icon="check" data-size="16"></span>
+                  Ujian
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="form-grid">
+              <div class="field" id="field-course">
+                <label class="field__label" for="course">Praktikum</label>
+                <div class="field__control">
+                  <select id="course" name="course" aria-describedby="course-error">
+                    <option value="">Pilih praktikum</option>
+                  </select>
+                  <span data-icon="chevronDown"></span>
+                </div>
+                <p class="field__error" id="course-error"></p>
+              </div>
+
+              <div class="field" id="field-due">
+                <label class="field__label" for="due" id="due-label">Tenggat</label>
+                <div class="field__control">
+                  <input type="datetime-local" id="due" name="due" aria-describedby="due-error">
+                </div>
+                <p class="field__error" id="due-error"></p>
+              </div>
+
+              <div class="field" id="field-target" hidden>
+                <label class="field__label" for="target">Untuk laprak</label>
+                <div class="field__control">
+                  <select id="target" name="target" aria-describedby="target-error"></select>
+                  <span data-icon="chevronDown"></span>
+                </div>
+                <p class="field__error" id="target-error"></p>
+              </div>
+            </div>
+
+            <div class="field" id="field-title">
+              <label class="field__label" for="title">Judul</label>
+              <div class="field__control">
+                <input type="text" id="title" name="title" placeholder="Contoh: LK Modul 6: Sequence Diagram" autocomplete="off" aria-describedby="title-error">
+              </div>
+              <p class="field__error" id="title-error"></p>
+            </div>
+
+            <div class="field" id="field-place" hidden>
+              <label class="field__label" for="place">Tempat</label>
+              <div class="field__control">
+                <span data-icon="mapPin"></span>
+                <input type="text" id="place" name="place" placeholder="Contoh: Lab Komputer 1, Gedung G" autocomplete="off">
+              </div>
+            </div>
+
+            <div class="field" id="field-file">
+              <label class="field__label" for="file-name">Format nama file</label>
+              <div class="field__control">
+                <span data-icon="file"></span>
+                <input class="text-mono" type="text" id="file-name" name="fileName" placeholder="APS_M6_NIM_Nama.pdf" autocomplete="off" aria-describedby="file-help">
+              </div>
+              <p class="field__helper" id="file-help">Tulis NIM dan Nama apa adanya, nanti diganti otomatis dengan datamu.</p>
+            </div>
+
+            <div class="field" id="field-link">
+              <label class="field__label" for="link">Link pengumpulan</label>
+              <div class="field__control">
+                <span data-icon="external"></span>
+                <input type="url" id="link" name="link" placeholder="https://classroom.google.com/c/..." autocomplete="off" aria-describedby="link-help link-error">
+              </div>
+              <p class="field__helper" id="link-help">Opsional. Tempel link tugas di Classroom atau eLing supaya tombol Kumpulkan langsung membuka halaman tugasnya.</p>
+              <p class="field__error" id="link-error"></p>
+            </div>
+
+            <div class="field" id="field-rules">
+              <span class="field__label" id="rules-label">Aturan penting</span>
+              <ul class="chip-list" id="rule-list" aria-labelledby="rules-label"></ul>
+              <div class="rule-add">
+                <div class="field__control">
+                  <input type="text" id="rule-input" placeholder="Tulis aturan lalu tekan Enter" autocomplete="off" aria-labelledby="rules-label" aria-describedby="rules-error">
+                </div>
+                <button class="btn btn--secondary" type="button" id="rule-add-button">
+                  <span data-icon="plus"></span>
+                  Tambah
+                </button>
+              </div>
+              <p class="field__error" id="rules-error"></p>
+            </div>
+          </section>
+
+          <div class="form-actions">
+            <a class="btn btn--secondary" href="index.html">Batal</a>
+            <button class="btn btn--primary" type="submit" id="save-button">
+              <span data-icon="check"></span>
+              Simpan info
+            </button>
+          </div>
+        </form>
+
+        <aside class="page-aside">
+          <section class="card" aria-labelledby="preview-heading">
+            <div class="card__head">
+              <h2 class="card__title" id="preview-heading">Pratinjau</h2>
+              <span class="badge badge--neutral" id="preview-type">Tenggat</span>
+            </div>
+            <p class="text-small text-secondary" id="preview-caption">Begini info ini akan tampil di Beranda.</p>
+            <div class="stack" id="preview"></div>
+          </section>
+
+          <section class="card" aria-labelledby="tips-heading">
+            <div class="card__title-row">
+              <span class="icon-box icon-box--neutral"><span data-icon="info"></span></span>
+              <h2 class="card__title" id="tips-heading">Biar terbaca rapi</h2>
+            </div>
+            <ul class="tip-list">
+              <li>Tempel satu pesan utuh dari asprak, jangan dipotong.</li>
+              <li>Pastikan pesan menyebut nama praktikum, tanggal, dan jam.</li>
+              <li>Cek lagi hasil bacaan sebelum menyimpan.</li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/core/data.js"></script>
+  <script src="assets/js/core/store.js"></script>
+  <script src="assets/js/core/format.js"></script>
+  <script src="assets/js/core/icons.js"></script>
+  <script src="assets/js/core/ui.js"></script>
+  <script src="assets/js/core/parser.js"></script>
+  <script src="assets/js/pages/simpan-info.js"></script>
+</body>
+</html>

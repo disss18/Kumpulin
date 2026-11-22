@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cek berkas laprak sebelum dikumpulkan.">
+  <title>Cek &amp; Kumpulkan · Kumpulin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Langsung ke konten</a>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Menu Kumpulin"></aside>
+
+    <main class="content" id="main" tabindex="-1">
+      <div id="check-view">
+        <header class="page-header">
+          <div class="page-header__text">
+            <nav aria-label="Breadcrumb">
+              <ol class="breadcrumb" id="breadcrumb"></ol>
+            </nav>
+            <h1>Cek sebelum kumpulkan</h1>
+            <p class="page-subtitle" id="check-subtitle"></p>
+          </div>
+        </header>
+
+        <ol class="stepper" aria-label="Langkah pengumpulan">
+          <li class="stepper__step is-current" aria-current="step">
+            <span class="stepper__number">1</span>
+            Cek berkas
+          </li>
+          <li class="stepper__step">
+            <span class="stepper__line" aria-hidden="true"></span>
+            <span class="stepper__number">2</span>
+            <span id="step-platform">Kumpulkan</span>
+          </li>
+          <li class="stepper__step">
+            <span class="stepper__line" aria-hidden="true"></span>
+            <span class="stepper__number">3</span>
+            Tandai terkumpul
+          </li>
+        </ol>
+
+        <div class="page-grid">
+          <section class="card" aria-labelledby="checklist-heading">
+            <div class="card__head">
+              <div class="card__title-row">
+                <span class="icon-box"><span data-icon="clipboard"></span></span>
+                <h2 class="card__title" id="checklist-heading">Daftar cek</h2>
+              </div>
+              <span class="text-small" id="check-count" aria-live="polite"></span>
+            </div>
+            <div class="progress" id="check-progress" role="progressbar" aria-label="Progres cek berkas" aria-valuemin="0">
+              <div class="progress__bar" id="check-progress-bar"></div>
+            </div>
+            <div id="check-notice" aria-live="polite"></div>
+            <ul class="checklist" id="checklist"></ul>
+          </section>
+
+          <aside class="page-aside">
+            <section class="card" aria-labelledby="submit-heading">
+              <div class="card__title-row">
+                <span class="icon-box"><span data-icon="send"></span></span>
+                <h2 class="card__title" id="submit-heading">Kumpulkan</h2>
+              </div>
+              <p class="text-small text-secondary" id="submit-text"></p>
+              <p class="link-target" id="submit-target"></p>
+              <div class="filename-box filename-box--compact">
+                <code class="filename-box__name" id="file-name"></code>
+                <button class="icon-button" type="button" id="copy-button" aria-label="Salin nama file">
+                  <span data-icon="copy" data-size="18"></span>
+                </button>
+              </div>
+              <button class="btn btn--primary btn--block" type="button" id="submit-button"></button>
+              <a class="btn btn--secondary btn--block" id="back-button" href="index.html">
+                <span data-icon="arrowLeft"></span>
+                Kembali ke detail
+              </a>
+            </section>
+          </aside>
+        </div>
+      </div>
+
+      <section class="empty-state empty-state--page" id="missing-view" hidden>
+        <span data-icon="alertCircle" data-size="32"></span>
+        <h1 class="card__title">Laprak tidak ditemukan</h1>
+        <p class="text-small">Pilih laprak dari Beranda untuk mulai cek berkas.</p>
+        <a class="btn btn--primary" href="index.html">
+          <span data-icon="arrowLeft"></span>
+          Kembali ke Beranda
+        </a>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/core/data.js"></script>
+  <script src="assets/js/core/store.js"></script>
+  <script src="assets/js/core/format.js"></script>
+  <script src="assets/js/core/icons.js"></script>
+  <script src="assets/js/core/ui.js"></script>
+  <script src="assets/js/pages/cek-kumpulkan.js"></script>
+</body>
+</html>

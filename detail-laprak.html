@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Detail aturan, tenggat, dan nama file laprak.">
+  <title>Detail Laprak · Kumpulin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Langsung ke konten</a>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Menu Kumpulin"></aside>
+
+    <main class="content" id="main" tabindex="-1">
+      <div id="detail-view">
+        <header class="page-header">
+          <div class="page-header__text">
+            <nav aria-label="Breadcrumb">
+              <ol class="breadcrumb" id="breadcrumb"></ol>
+            </nav>
+            <h1 id="task-title">Detail laprak</h1>
+            <div class="meta-row" id="task-meta"></div>
+          </div>
+        </header>
+
+        <div class="page-grid">
+          <div class="page-main">
+            <section class="card due-card" id="due-card" aria-label="Tenggat pengumpulan"></section>
+
+            <section class="card" aria-labelledby="rules-heading">
+              <div class="card__head">
+                <div class="card__title-row">
+                  <span class="icon-box"><span data-icon="clipboard"></span></span>
+                  <h2 class="card__title" id="rules-heading">Aturan pengumpulan</h2>
+                </div>
+                <span class="text-caption text-secondary" id="rules-count"></span>
+              </div>
+              <ul class="rule-list" id="rule-list"></ul>
+              <div class="stack" id="source-note"></div>
+            </section>
+
+            <section class="card" aria-labelledby="file-heading">
+              <div class="card__title-row">
+                <span class="icon-box icon-box--neutral"><span data-icon="file"></span></span>
+                <h2 class="card__title" id="file-heading">Nama file</h2>
+              </div>
+              <div class="filename-box">
+                <code class="filename-box__name" id="file-name"></code>
+                <button class="btn btn--secondary btn--small" type="button" id="copy-button">
+                  <span data-icon="copy" data-size="16"></span>
+                  <span>Salin</span>
+                </button>
+              </div>
+              <p class="field__helper">Pakai nama ini persis supaya laprak tidak ditolak asprak.</p>
+            </section>
+          </div>
+
+          <aside class="page-aside">
+            <section class="card" id="action-card" aria-labelledby="action-heading"></section>
+
+            <section class="card" aria-labelledby="reminder-heading">
+              <div class="card__title-row">
+                <span class="icon-box icon-box--neutral"><span data-icon="bell"></span></span>
+                <h2 class="card__title" id="reminder-heading">Pengingat</h2>
+              </div>
+              <ul class="reminder-list" id="reminder-list"></ul>
+              <a class="link-button" href="status.html#pengingat">
+                Atur pengingat
+                <span data-icon="chevronRight" data-size="16"></span>
+              </a>
+            </section>
+          </aside>
+        </div>
+      </div>
+
+      <section class="empty-state empty-state--page" id="missing-view" hidden>
+        <span data-icon="alertCircle" data-size="32"></span>
+        <h1 class="card__title">Laprak tidak ditemukan</h1>
+        <p class="text-small">Tautannya mungkin salah, atau data demo baru saja diatur ulang.</p>
+        <a class="btn btn--primary" href="index.html">
+          <span data-icon="arrowLeft"></span>
+          Kembali ke Beranda
+        </a>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/core/data.js"></script>
+  <script src="assets/js/core/store.js"></script>
+  <script src="assets/js/core/format.js"></script>
+  <script src="assets/js/core/icons.js"></script>
+  <script src="assets/js/core/ui.js"></script>
+  <script src="assets/js/pages/detail-laprak.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Kumpulin, portal pengumpulan laprak praktikum dari satu tempat.">
+  <title>Beranda · Kumpulin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Langsung ke konten</a>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Menu Kumpulin"></aside>
+
+    <main class="content" id="main" tabindex="-1">
+      <header class="page-header">
+        <div class="page-header__text">
+          <h1 id="greeting">Halo</h1>
+          <p class="page-subtitle" id="summary"></p>
+        </div>
+        <div class="page-header__actions">
+          <label class="search">
+            <span data-icon="search"></span>
+            <span class="visually-hidden">Cari tugas atau praktikum</span>
+            <input type="search" id="search" placeholder="Cari tugas…" autocomplete="off">
+          </label>
+          <a class="btn btn--primary" href="simpan-info.html">
+            <span data-icon="plus"></span>
+            Simpan info
+          </a>
+        </div>
+      </header>
+
+      <section class="stats" id="stats" aria-label="Ringkasan minggu ini"></section>
+
+      <div class="page-grid">
+        <section class="stack" aria-labelledby="deadline-heading">
+          <div class="section-head">
+            <h2 id="deadline-heading">Tenggat terdekat</h2>
+            <div class="segmented" role="group" aria-label="Filter sumber info" id="source-filter">
+              <button class="segmented__option is-selected" type="button" data-source="semua" aria-pressed="true">
+                <span data-icon="check" data-size="16"></span>
+                Semua
+              </button>
+              <button class="segmented__option" type="button" data-source="eling" aria-pressed="false">
+                <span data-icon="check" data-size="16"></span>
+                eLing
+              </button>
+              <button class="segmented__option" type="button" data-source="classroom" aria-pressed="false">
+                <span data-icon="check" data-size="16"></span>
+                Classroom
+              </button>
+              <button class="segmented__option" type="button" data-source="grup" aria-pressed="false">
+                <span data-icon="check" data-size="16"></span>
+                Grup WA
+              </button>
+            </div>
+          </div>
+          <div class="chip-list" id="active-filter" hidden></div>
+          <ul class="deadline-list" id="deadline-list" aria-live="polite"></ul>
+        </section>
+
+        <aside class="page-aside">
+          <section class="card" aria-labelledby="exam-heading">
+            <div class="card__title-row">
+              <span class="icon-box icon-box--neutral"><span data-icon="calendar"></span></span>
+              <h2 class="card__title" id="exam-heading">Jadwal ujian</h2>
+            </div>
+            <ul class="exam-list" id="exam-list"></ul>
+          </section>
+
+          <section class="card card--accent" aria-labelledby="group-heading">
+            <div class="card__title-row">
+              <span class="icon-box"><span data-icon="message"></span></span>
+              <h2 class="card__title" id="group-heading">Ada info baru di grup?</h2>
+            </div>
+            <p class="text-small text-secondary">Tempel pesan asprak, Kumpulin akan membaca tanggal, aturan, dan nama filenya.</p>
+            <a class="btn btn--secondary btn--block" href="simpan-info.html">
+              <span data-icon="clipboard"></span>
+              Tempel pesan grup
+            </a>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/core/data.js"></script>
+  <script src="assets/js/core/store.js"></script>
+  <script src="assets/js/core/format.js"></script>
+  <script src="assets/js/core/icons.js"></script>
+  <script src="assets/js/core/ui.js"></script>
+  <script src="assets/js/pages/beranda.js"></script>
+</body>
+</html>

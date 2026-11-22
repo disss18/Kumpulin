@@ -1,0 +1,84 @@
+:root {
+  --color-bg-canvas: #FAF6F0;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-structural: #3E2A1E;
+  --color-bg-structural-hover: #4C3525;
+  --color-bg-structural-active: #5A3E2B;
+  --color-bg-subtle: #F4EEE6;
+  --color-bg-inverse: #2B1D14;
+
+  --color-text-primary: #2B1D14;
+  --color-text-secondary: #6B5A4C;
+  --color-text-on-structural: #FFFFFF;
+  --color-text-on-structural-muted: #E7D5C3;
+  --color-text-on-action: #FFFFFF;
+
+  --color-action-primary: #8B5A2B;
+  --color-action-primary-hover: #6B3F1A;
+  --color-action-primary-pressed: #55310F;
+  --color-action-primary-subtle: #F3E7DA;
+  --color-action-link: #115E59;
+
+  --color-border-input: #8C7B6C;
+  --color-border-subtle: #E8DDD0;
+  --color-focus-ring: #3E2A1E;
+
+  --color-success: #15803D;
+  --color-success-bg: #DCFCE7;
+  --color-success-fg: #166534;
+  --color-warning-bg: #FEF3C7;
+  --color-warning-fg: #92400E;
+  --color-warning-surface: #FFFBEB;
+  --color-danger: #B91C1C;
+  --color-danger-hover: #991B1B;
+  --color-danger-pressed: #7F1D1D;
+  --color-danger-bg: #FEE2E2;
+  --color-danger-fg: #991B1B;
+  --color-info-bg: #D5F0EC;
+  --color-info-fg: #115E59;
+  --color-neutral-fg: #4A3B30;
+
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+  --text-h1: 2rem;
+  --leading-h1: 2.5rem;
+  --text-h2: 1.5rem;
+  --leading-h2: 2rem;
+  --text-h3: 1.25rem;
+  --leading-h3: 1.75rem;
+  --text-body: 1rem;
+  --leading-body: 1.5rem;
+  --text-small: 0.875rem;
+  --leading-small: 1.25rem;
+  --text-caption: 0.75rem;
+  --leading-caption: 1rem;
+
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 999px;
+
+  --shadow-raised: 0 1px 3px rgba(43, 29, 20, 0.08);
+  --shadow-hover: 0 4px 12px rgba(139, 90, 43, 0.28);
+  --shadow-pop: 0 8px 24px rgba(43, 29, 20, 0.2);
+  --shadow-dialog: 0 20px 48px rgba(43, 29, 20, 0.24);
+
+  --sidebar-width: 248px;
+  --sidebar-rail-width: 72px;
+  --content-max: 1128px;
+  --control-height: 48px;
+
+  --duration-fast: 100ms;
+  --duration-base: 200ms;
+  --duration-slow: 250ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
