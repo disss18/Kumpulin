@@ -1,10 +1,12 @@
 (() => {
   UI.initPage('beranda');
 
+  const requestedCourse = UI.param('praktikum');
+
   const state = {
     source: 'semua',
     query: '',
-    course: UI.param('praktikum')
+    course: KumpulinData.courses.some((item) => item.id === requestedCourse) ? requestedCourse : null
   };
 
   const saved = {
@@ -15,10 +17,13 @@
   const els = {
     greeting: document.getElementById('greeting'),
     summary: document.getElementById('summary'),
+    saveLink: document.getElementById('save-link'),
+    groupLink: document.getElementById('group-link'),
     stats: document.getElementById('stats'),
     filter: document.getElementById('source-filter'),
     search: document.getElementById('search'),
-    activeFilter: document.getElementById('active-filter'),
+    deadlineHeading: document.getElementById('deadline-heading'),
+    examHeading: document.getElementById('exam-heading'),
     list: document.getElementById('deadline-list'),
     exams: document.getElementById('exam-list')
   };
@@ -29,6 +34,32 @@
 
   function isOpen(task) {
     return task.status === 'belum' || task.status === 'revisi';
+  }
+
+  function currentCourse() {
+    return state.course ? UI.course(state.course) : null;
+  }
+
+  function inScope(item) {
+    return !state.course || item.courseId === state.course;
+  }
+
+  function scopedTasks() {
+    return Store.getTasks().filter(inScope);
+  }
+
+  function scopedExams() {
+    return Store.getExams()
+      .filter((exam) => inScope(exam) && Format.daysUntil(exam.at) >= 0)
+      .sort(byDate('at'));
+  }
+
+  function pageHref() {
+    return UI.pageUrl('index', { praktikum: state.course });
+  }
+
+  function saveHref() {
+    return UI.pageUrl('simpan-info', { praktikum: state.course });
   }
 
   function greetingText() {
@@ -45,63 +76,26 @@
     return 'Selamat malam';
   }
 
-  function upcomingExams() {
-    return Store.getExams().filter((exam) => Format.daysUntil(exam.at) >= 0).sort(byDate('at'));
-  }
-
-  function listItems() {
-    const tasks = Store.getTasks().filter(isOpen).map((task) => ({
-      kind: 'task',
-      id: task.id,
-      title: task.title,
-      courseId: task.courseId,
-      date: task.due,
-      status: task.status,
-      source: task.source
-    }));
-    const exams = upcomingExams().filter((exam) => Format.daysUntil(exam.at) <= 7).map((exam) => ({
-      kind: 'exam',
-      id: exam.id,
-      title: exam.title,
-      courseId: exam.courseId,
-      date: exam.at,
-      source: exam.source,
-      place: exam.place
-    }));
-    return tasks.concat(exams).sort(byDate('date'));
-  }
-
-  function matches(item) {
-    if (state.source !== 'semua' && item.source !== state.source) {
-      return false;
-    }
-    if (state.course && item.courseId !== state.course) {
-      return false;
-    }
-    if (state.query) {
-      const info = UI.course(item.courseId);
-      const haystack = `${item.title} ${info.name} ${info.short}`.toLowerCase();
-      return haystack.includes(state.query);
-    }
-    return true;
-  }
-
-  function hasFilter() {
-    return state.source !== 'semua' || Boolean(state.query) || Boolean(state.course);
-  }
-
   function renderHeader() {
-    const user = KumpulinData.user;
-    els.greeting.textContent = `${greetingText()}, ${user.firstName}`;
-    const week = Store.getTasks().filter((task) => isOpen(task) && Format.daysUntil(task.due) <= 7).sort(byDate('due'));
-    const exams = upcomingExams().filter((exam) => Format.daysUntil(exam.at) <= 7);
+    const course = currentCourse();
+    const label = course ? ` ${course.short}` : '';
+    const week = scopedTasks().filter((task) => isOpen(task) && Format.daysUntil(task.due) <= 7).sort(byDate('due'));
+    const exams = scopedExams().filter((exam) => Format.daysUntil(exam.at) <= 7);
+
+    document.title = course ? `${course.short} · Beranda · Kumpulin` : 'Beranda · Kumpulin';
+    els.greeting.textContent = `${greetingText()}, ${KumpulinData.user.firstName}`;
+    els.deadlineHeading.textContent = course ? `Tenggat ${course.short} terdekat` : 'Tenggat terdekat';
+    els.examHeading.textContent = course ? `Jadwal ujian ${course.short}` : 'Jadwal ujian';
+    els.saveLink.href = saveHref();
+    els.groupLink.href = saveHref();
+
     if (!week.length) {
-      els.summary.textContent = 'Tidak ada tenggat dalam 7 hari ke depan. Santai dulu, tapi tetap cek grup ya.';
+      els.summary.textContent = `Tidak ada tenggat${label} dalam 7 hari ke depan. Santai dulu, tapi tetap cek grup ya.`;
       return;
     }
     const nearest = week[0];
     const examText = exams.length ? ` dan ${exams.length} ujian` : '';
-    els.summary.textContent = `Ada ${week.length} tenggat${examText} dalam 7 hari ke depan. Paling dekat: ${nearest.title}, ${Format.relative(nearest.due).toLowerCase()} pukul ${Format.time(nearest.due)}.`;
+    els.summary.textContent = `Ada ${week.length} tenggat${label}${examText} dalam 7 hari ke depan. Paling dekat: ${nearest.title}, ${Format.relative(nearest.due).toLowerCase()} pukul ${Format.time(nearest.due)}.`;
   }
 
   function statCard(card) {
@@ -113,11 +107,12 @@
   }
 
   function renderStats() {
-    const tasks = Store.getTasks();
+    const course = currentCourse();
+    const tasks = scopedTasks();
     const week = tasks.filter((task) => isOpen(task) && Format.daysUntil(task.due) <= 7).sort(byDate('due'));
     const revisi = tasks.filter((task) => task.status === 'revisi');
     const done = tasks.filter((task) => task.status === 'terkumpul' || task.status === 'dinilai');
-    const exam = upcomingExams()[0];
+    const exam = scopedExams()[0];
     const examDays = exam ? Format.daysUntil(exam.at) : null;
 
     const cards = [
@@ -151,48 +146,66 @@
         tone: 'info',
         value: done.length,
         unit: 'laprak',
-        note: `Dari ${tasks.length} laprak semester ini`
+        note: course ? `Dari ${tasks.length} laprak ${course.short}` : `Dari ${tasks.length} laprak semester ini`
       }
     ];
+    els.stats.setAttribute('aria-label', course ? `Ringkasan praktikum ${course.short}` : 'Ringkasan minggu ini');
     els.stats.innerHTML = cards.map(statCard).join('');
   }
 
-  function renderActiveFilter() {
-    if (!state.course) {
-      els.activeFilter.hidden = true;
-      els.activeFilter.innerHTML = '';
-      return;
+  function listItems() {
+    const tasks = scopedTasks().filter(isOpen).map((task) => ({
+      kind: 'task',
+      id: task.id,
+      title: task.title,
+      courseId: task.courseId,
+      date: task.due,
+      status: task.status,
+      source: task.source
+    }));
+    const exams = scopedExams().filter((exam) => Format.daysUntil(exam.at) <= 7).map((exam) => ({
+      kind: 'exam',
+      id: exam.id,
+      title: exam.title,
+      courseId: exam.courseId,
+      date: exam.at,
+      source: exam.source,
+      place: exam.place
+    }));
+    return tasks.concat(exams).sort(byDate('date'));
+  }
+
+  function matches(item) {
+    if (state.source !== 'semua' && item.source !== state.source) {
+      return false;
     }
-    const info = UI.course(state.course);
-    els.activeFilter.hidden = false;
-    els.activeFilter.innerHTML = `<span class="chip">
-      <span class="chip__text">Praktikum: ${UI.escape(info.name)}</span>
-      <button class="chip__remove" type="button" aria-label="Hapus filter praktikum ${UI.escape(info.short)}">${Icon.render('x', 14)}</button>
-    </span>`;
-    els.activeFilter.querySelector('.chip__remove').addEventListener('click', () => {
-      state.course = null;
-      window.history.replaceState(null, '', 'index.html');
-      UI.renderSidebar('beranda');
-      renderActiveFilter();
-      renderList();
-      els.search.focus();
-    });
+    if (state.query) {
+      const info = UI.course(item.courseId);
+      const haystack = `${item.title} ${info.name} ${info.short}`.toLowerCase();
+      return haystack.includes(state.query);
+    }
+    return true;
+  }
+
+  function hasFilter() {
+    return state.source !== 'semua' || Boolean(state.query);
   }
 
   function emptyState() {
+    const course = currentCourse();
     if (hasFilter()) {
       return `<li class="empty-state">
         ${Icon.render('search', 32)}
         <strong>Tidak ada tenggat yang cocok</strong>
         <span class="text-small">Coba ganti filter sumber atau kata kunci pencarian.</span>
-        <button class="btn btn--secondary btn--small" type="button" data-action="reset-filter">Hapus semua filter</button>
+        <button class="btn btn--secondary btn--small" type="button" data-action="reset-filter">Hapus filter</button>
       </li>`;
     }
     return `<li class="empty-state">
       ${Icon.render('checkCircle', 32)}
-      <strong>Semua laprak sudah beres</strong>
+      <strong>${course ? `Semua laprak ${UI.escape(course.short)} sudah beres` : 'Semua laprak sudah beres'}</strong>
       <span class="text-small">Belum ada tenggat baru. Kalau asprak kirim info di grup, simpan lewat Simpan Info.</span>
-      <a class="btn btn--secondary btn--small" href="simpan-info.html">Simpan info baru</a>
+      <a class="btn btn--secondary btn--small" href="${saveHref()}">Simpan info baru</a>
     </li>`;
   }
 
@@ -206,9 +219,10 @@
   }
 
   function renderExams() {
-    const exams = upcomingExams();
+    const course = currentCourse();
+    const exams = scopedExams();
     if (!exams.length) {
-      els.exams.innerHTML = '<li class="text-small text-secondary">Belum ada jadwal ujian.</li>';
+      els.exams.innerHTML = `<li class="text-small text-secondary">${course ? `Belum ada jadwal ujian ${UI.escape(course.short)}.` : 'Belum ada jadwal ujian.'}</li>`;
       return;
     }
     els.exams.innerHTML = exams.map((exam) => `<li class="list-row${exam.id === saved.id ? ' is-new' : ''}">
@@ -221,6 +235,7 @@
       </span>
     </li>`).join('');
   }
+
 
   function setSource(source) {
     state.source = source;
@@ -235,12 +250,6 @@
   function resetFilters() {
     state.query = '';
     els.search.value = '';
-    if (state.course) {
-      state.course = null;
-      window.history.replaceState(null, '', 'index.html');
-      UI.renderSidebar('beranda');
-      renderActiveFilter();
-    }
     setSource('semua');
     els.search.focus();
   }
@@ -258,11 +267,11 @@
     const options = task ? {
       actionLabel: 'Lihat detail',
       onAction: () => {
-        window.location.href = `detail-laprak.html?id=${encodeURIComponent(task.id)}`;
+        window.location.href = UI.pageUrl('detail-laprak', { id: task.id });
       }
     } : {};
     UI.toast(messages[saved.type] || 'Info tersimpan.', options);
-    window.history.replaceState(null, '', state.course ? `index.html?praktikum=${encodeURIComponent(state.course)}` : 'index.html');
+    window.history.replaceState(null, '', pageHref());
   }
 
   els.filter.addEventListener('click', (event) => {
@@ -285,7 +294,6 @@
 
   renderHeader();
   renderStats();
-  renderActiveFilter();
   renderList();
   renderExams();
   announceSaved();

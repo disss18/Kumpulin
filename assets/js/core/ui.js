@@ -21,8 +21,23 @@ const UI = (() => {
     return String(value === undefined || value === null ? '' : value).replace(/[&<>"']/g, (char) => ENTITIES[char]);
   }
 
+  function hashParams(url) {
+    const index = url.indexOf('#');
+    return new URLSearchParams(index === -1 ? '' : url.slice(index + 1));
+  }
+
+  function hasHashParams(url) {
+    return Array.from(hashParams(url).values()).some((value) => value !== '');
+  }
+
   function param(name) {
-    return new URLSearchParams(window.location.search).get(name);
+    return hashParams(window.location.href).get(name) || new URLSearchParams(window.location.search).get(name);
+  }
+
+  function pageUrl(page, params = {}) {
+    const entries = Object.entries(params).filter(([, value]) => value !== undefined && value !== null && value !== '');
+    const query = new URLSearchParams(entries).toString();
+    return query ? `${page}.html#${query}` : `${page}.html`;
   }
 
   function course(id) {
@@ -77,7 +92,7 @@ const UI = (() => {
     if (options.isNew) {
       classes.push('is-new');
     }
-    const href = isLink ? ` href="detail-laprak.html?id=${encodeURIComponent(item.id)}"` : '';
+    const href = isLink ? ` href="${pageUrl('detail-laprak', { id: item.id })}"` : '';
     const validDate = Format.isValid(item.date);
     const metaText = isExam ? item.place || course(item.courseId).name : course(item.courseId).name;
     const dueText = validDate ? `${isExam ? 'Mulai' : 'Pukul'} ${Format.time(item.date)} WIB` : '';
@@ -100,7 +115,8 @@ const UI = (() => {
     if (!sidebar) {
       return;
     }
-    const activeCourse = active === 'beranda' ? param('praktikum') : null;
+    const requestedCourse = param('praktikum');
+    const activeCourse = active === 'beranda' && KumpulinData.courses.some((item) => item.id === requestedCourse) ? requestedCourse : null;
     const used = new Set(Store.getTasks().map((task) => task.courseId).concat(Store.getExams().map((exam) => exam.courseId)));
     const courses = KumpulinData.courses.filter((item) => used.has(item.id));
     const user = KumpulinData.user;
@@ -108,7 +124,7 @@ const UI = (() => {
     const navItems = NAV.map((item) => {
       const isActive = item.id === active && !activeCourse;
       return `<li>
-        <a class="nav-item${item.id === active ? ' is-active' : ''}" href="${item.href}" aria-label="${item.label}" title="${item.label}"${isActive ? ' aria-current="page"' : ''}>
+        <a class="nav-item${isActive ? ' is-active' : ''}" href="${item.href}" aria-label="${item.label}" title="${item.label}"${isActive ? ' aria-current="page"' : ''}>
           ${Icon.render(item.icon, 20)}
           <span class="nav-item__label">${item.label}</span>
           <span class="nav-item__short" aria-hidden="true">${item.short}</span>
@@ -119,7 +135,7 @@ const UI = (() => {
     const courseItems = courses.map((item) => {
       const isActive = item.id === activeCourse;
       return `<li>
-        <a class="course-item${isActive ? ' is-active' : ''}" href="index.html?praktikum=${item.id}"${isActive ? ' aria-current="page"' : ''}>
+        <a class="course-item${isActive ? ' is-active' : ''}" href="${pageUrl('index', { praktikum: item.id })}"${isActive ? ' aria-current="page"' : ''}>
           <span>${escape(item.short)}</span>
           <span class="course-item__platform">${escape(platform(item.platform).shortLabel)}</span>
         </a>
@@ -351,15 +367,24 @@ const UI = (() => {
     return Promise.resolve(fallbackCopy(text));
   }
 
+  function reloadOnParamChange(event) {
+    const leftParams = hasHashParams(event.oldURL) && !event.newURL.includes('#');
+    if (hasHashParams(event.newURL) || leftParams) {
+      window.location.reload();
+    }
+  }
+
   function initPage(active) {
     renderSidebar(active);
     hydrateIcons();
     ensureToastRegion();
+    window.addEventListener('hashchange', reloadOnParamChange);
   }
 
   return {
     escape,
     param,
+    pageUrl,
     course,
     platform,
     hydrateIcons,

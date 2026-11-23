@@ -1,12 +1,20 @@
 # Kumpulin
 
-satu pintu informasi praktikum bagi mahasiswa yang menggabungkan tugas laporan praktikum (laprak) dari eLing dan Google Classroom dengan pengumuman asisten praktikum di grup WhatsApp (aturan laprak serta jadwal UTP/UAP), berbasis web responsif.
+Portal terpusat untuk peserta praktikum: lihat tenggat, simpan info dari grup asprak, cek berkas, lalu diarahkan ke tempat pengumpulan (eLing atau Google Classroom).
+
+Ini prototipe UI fungsional. Belum ada backend atau database. Data contoh ada di `assets/js/core/data.js`, dan perubahan (status, info baru, centang daftar cek, pengingat) disimpan di `localStorage` browser.
+
+Seluruh project hanya berisi HTML, CSS, dan JavaScript. Tidak perlu Node.js, npm, atau install apa pun.
 
 ## Cara menjalankan
 
 Buka `index.html` langsung di browser (Chrome, Edge, Firefox, atau Safari): klik dua kali file-nya, atau dari terminal jalankan `start index.html`.
 
 Kalau sedang mengedit kode di VS Code, bisa juga pakai extension Live Server: klik kanan `index.html`, pilih Open with Live Server. Halaman otomatis ter-refresh setiap file disimpan.
+
+Kalau Node.js sudah terpasang, bisa juga jalankan `npx serve .` dari folder ini lalu buka `http://localhost:3000`.
+
+Data antarhalaman (id laprak, praktikum yang dipilih, notifikasi setelah menyimpan) dikirim lewat bagian `#` di alamat, misalnya `index.html#praktikum=aps`. Bagian ini tidak ikut terbuang ketika server seperti `npx serve` mengalihkan `index.html` ke `/`, jadi alurnya sama di semua cara menjalankan di atas.
 
 ## Struktur folder
 
@@ -39,3 +47,20 @@ kumpulin-web/
             ├── cek-kumpulkan.js
             └── status.js
 ```
+
+## Alur yang bisa dicoba
+
+1. Beranda: filter sumber (eLing, Classroom, Grup WA), cari tugas, atau klik praktikum di sidebar. Beranda tetap sama, tapi ringkasan, statistik, tenggat, dan jadwal ujian hanya untuk praktikum itu. Klik menu Beranda untuk kembali ke semua praktikum.
+2. Simpan Info: klik "Isi contoh pesan" (bisa diklik berulang untuk contoh tenggat, aturan, dan ujian), lalu "Simpan info".
+3. Buka salah satu tenggat, salin nama file, lalu "Cek & Kumpulkan".
+4. Kumpulkan tanpa mencentang semua untuk melihat dialog peringatan.
+5. Status Laprak: batalkan tanda terkumpul, lihat komentar revisi, lihat nilai, nyalakan atau matikan pengingat.
+6. "Atur ulang data demo" di halaman Status mengembalikan semua data ke awal.
+
+## Catatan
+
+- Tanggal "hari ini" disimulasikan ke `simulatedNow` di `data.js` (2 November 2026, 09.00) supaya data contoh selalu masuk akal. Ganti nilainya kalau perlu.
+- Setiap laprak di `data.js` punya `url`: link langsung ke halaman tugasnya di Classroom atau eLing. Tombol Kumpulkan dan "Buka tugas" membuka link ini di tab baru. Link contoh di data demo tidak benar-benar ada, jadi ganti dengan link tugas asli.
+- Laprak baru dari Simpan Info bisa diberi link lewat isian "Link pengumpulan". Kalau pesan asprak berisi link, link itu terisi otomatis. Kalau link kosong, tombol Kumpulkan membuka halaman utama platformnya.
+- Alamat halaman utama eLing dan Google Classroom ada di bagian `platforms` pada `data.js`.
+- Kalau halaman Detail atau Cek dibuka tanpa `#id=` atau dengan id yang tidak ada, yang ditampilkan adalah laprak dengan tenggat terdekat.

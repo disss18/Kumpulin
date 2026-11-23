@@ -18,12 +18,12 @@ const KumpulinData = {
   },
 
   courses: [
-    { id: 'asd', name: 'Algoritma dan Struktur Data', short: 'ASD', platform: 'eling', keywords: ['asd', 'struktur data', 'algoritma'] },
-    { id: 'aps', name: 'Analisis dan Perancangan Sistem', short: 'APS', platform: 'classroom', keywords: ['aps', 'analisis dan perancangan', 'perancangan sistem'] },
-    { id: 'jarkom', name: 'Jaringan Komputer', short: 'Jarkom', platform: 'eling', keywords: ['jarkom', 'jaringan komputer'] },
-    { id: 'basdat', name: 'Basis Data', short: 'Basdat', platform: 'classroom', keywords: ['basdat', 'basis data'] },
-    { id: 'sisop', name: 'Sistem Operasi', short: 'Sisop', platform: 'eling', keywords: ['sisop', 'sistem operasi'] },
-    { id: 'pemweb', name: 'Pemrograman Web', short: 'Pemweb', platform: 'classroom', keywords: ['pemweb', 'pemrograman web'] }
+    { id: 'asd', name: 'Algoritma dan Struktur Data', short: 'ASD', platform: 'eling', url: 'https://eling.ub.ac.id/course/view.php?id=2741', keywords: ['asd', 'struktur data', 'algoritma'] },
+    { id: 'aps', name: 'Analisis dan Perancangan Sistem', short: 'APS', platform: 'classroom', url: 'https://classroom.google.com/c/NzE0MjU1ODYzMTk1', keywords: ['aps', 'analisis dan perancangan', 'perancangan sistem'] },
+    { id: 'jarkom', name: 'Jaringan Komputer', short: 'Jarkom', platform: 'eling', url: 'https://eling.ub.ac.id/course/view.php?id=2756', keywords: ['jarkom', 'jaringan komputer'] },
+    { id: 'basdat', name: 'Basis Data', short: 'Basdat', platform: 'classroom', url: 'https://classroom.google.com/c/NzE2MDQ4OTI3MzEy', keywords: ['basdat', 'basis data'] },
+    { id: 'sisop', name: 'Sistem Operasi', short: 'Sisop', platform: 'eling', url: 'https://eling.ub.ac.id/course/view.php?id=2762', keywords: ['sisop', 'sistem operasi'] },
+    { id: 'pemweb', name: 'Pemrograman Web', short: 'Pemweb', platform: 'classroom', url: 'https://classroom.google.com/c/NzE3NTIxMzA0ODk2', keywords: ['pemweb', 'pemrograman web'] }
   ],
 
   tasks: [

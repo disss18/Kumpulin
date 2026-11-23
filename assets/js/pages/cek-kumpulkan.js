@@ -12,7 +12,7 @@
   }
 
   if (task.id !== requestedId) {
-    window.history.replaceState(null, '', `cek-kumpulkan.html?id=${encodeURIComponent(task.id)}`);
+    window.history.replaceState(null, '', UI.pageUrl('cek-kumpulkan', { id: task.id }));
   }
 
   const course = UI.course(task.courseId);
@@ -20,7 +20,7 @@
   const fileName = Format.fileName(task);
   const items = (task.checklist || []).map((text) => Format.fillTemplate(text, task));
   const alreadySubmitted = task.status === 'terkumpul' || task.status === 'dinilai';
-  const detailUrl = `detail-laprak.html?id=${encodeURIComponent(task.id)}`;
+  const detailUrl = UI.pageUrl('detail-laprak', { id: task.id });
   let checked = Store.getChecklist(task.id, items.length);
 
   const els = {
@@ -124,7 +124,7 @@
       submittedAt: Format.toIso(Format.now())
     });
     window.setTimeout(() => {
-      window.location.href = `status.html?terkumpul=${encodeURIComponent(task.id)}`;
+      window.location.href = UI.pageUrl('status', { terkumpul: task.id });
     }, 700);
   }
 

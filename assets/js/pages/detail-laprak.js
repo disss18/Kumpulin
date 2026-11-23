@@ -25,7 +25,7 @@
   }
 
   if (task.id !== requestedId) {
-    window.history.replaceState(null, '', `detail-laprak.html?id=${encodeURIComponent(task.id)}`);
+    window.history.replaceState(null, '', UI.pageUrl('detail-laprak', { id: task.id }));
   }
 
   const course = UI.course(task.courseId);
@@ -52,7 +52,7 @@
     els.breadcrumb.innerHTML = `
       <li><a href="index.html">Beranda</a></li>
       <li aria-hidden="true">${Icon.render('chevronRight', 14)}</li>
-      <li><a href="index.html?praktikum=${encodeURIComponent(course.id)}">${UI.escape(course.short)}</a></li>
+      <li><a href="${UI.pageUrl('index', { praktikum: course.id })}">${UI.escape(course.short)}</a></li>
       <li aria-hidden="true">${Icon.render('chevronRight', 14)}</li>
       <li><span aria-current="page">${UI.escape(task.title)}</span></li>`;
     els.title.textContent = task.title;
@@ -143,7 +143,7 @@
   }
 
   function renderAction() {
-    const checkUrl = `cek-kumpulkan.html?id=${encodeURIComponent(task.id)}`;
+    const checkUrl = UI.pageUrl('cek-kumpulkan', { id: task.id });
 
     if (isOpen) {
       const revision = task.status === 'revisi' && task.comment

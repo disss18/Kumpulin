@@ -66,7 +66,7 @@
     if (task.status === 'dinilai') {
       return `<button class="btn btn--secondary btn--small" type="button" data-action="score" data-id="${id}">${Icon.render('award', 16)}Lihat nilai</button>`;
     }
-    return `<a class="btn btn--secondary btn--small" href="detail-laprak.html?id=${encodeURIComponent(task.id)}">Buka detail${Icon.render('chevronRight', 16)}</a>`;
+    return `<a class="btn btn--secondary btn--small" href="${UI.pageUrl('detail-laprak', { id: task.id })}">Buka detail${Icon.render('chevronRight', 16)}</a>`;
   }
 
   function renderTable() {
@@ -79,7 +79,7 @@
       const course = UI.course(task.courseId);
       return `<tr data-id="${UI.escape(task.id)}"${task.id === state.highlight ? ' class="is-highlighted"' : ''}>
         <td data-label="Laprak">
-          <a class="status-table__title" href="detail-laprak.html?id=${encodeURIComponent(task.id)}">${UI.escape(task.title)}</a>
+          <a class="status-table__title" href="${UI.pageUrl('detail-laprak', { id: task.id })}">${UI.escape(task.title)}</a>
           <span class="text-caption text-secondary">${UI.escape(course.name)}</span>
         </td>
         <td data-label="Tenggat">
@@ -154,7 +154,7 @@
       iconTone: 'info'
     }).then((confirmed) => {
       if (confirmed) {
-        window.location.href = `cek-kumpulkan.html?id=${encodeURIComponent(task.id)}`;
+        window.location.href = UI.pageUrl('cek-kumpulkan', { id: task.id });
       }
     });
   }
@@ -222,7 +222,7 @@
       return;
     }
     const task = Store.getTask(state.highlight);
-    window.history.replaceState(null, '', 'status.html');
+    window.history.replaceState(null, '', UI.pageUrl('status'));
     if (!task || task.status !== 'terkumpul') {
       return;
     }

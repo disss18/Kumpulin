@@ -36,6 +36,9 @@
     previewCaption: document.getElementById('preview-caption')
   };
 
+  const requestedCourse = UI.param('praktikum');
+  const presetCourse = KumpulinData.courses.some((course) => course.id === requestedCourse) ? requestedCourse : null;
+
   let rules = [];
   let sampleIndex = 0;
   let detectedPlatform = '';
@@ -529,10 +532,19 @@
     UI.setLoading(els.save, true, 'Menyimpan…');
     const id = saveInfo(type);
     window.setTimeout(() => {
-      window.location.href = `index.html?tersimpan=${type}&id=${encodeURIComponent(id)}`;
+      window.location.href = UI.pageUrl('index', {
+        praktikum: presetCourse ? els.course.value : null,
+        tersimpan: type,
+        id
+      });
     }, 450);
   });
 
   populateCourses();
   setType('tenggat');
+  if (presetCourse) {
+    els.course.value = presetCourse;
+    document.getElementById('cancel-link').href = UI.pageUrl('index', { praktikum: presetCourse });
+    updatePreview();
+  }
 })();
